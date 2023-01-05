@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Estimhouse</string>
+    <string name="nom_de_la_voie">Nom de la voie</string>
+    <string name="code_postal">%1$d</string>
+    <string name="nombre_de_piece">Nombre De Pièces</string>
+    <string name="surface"></string>
+    <string name="valider">Valider</string>
+    <string name="surfacetest">%1$d</string>
+    <string name="valuealeatcodepostalText">%1$d</string>
+    <string name="estimationlivedata">%1$d</string>
+</resources>
