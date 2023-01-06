@@ -21,10 +21,10 @@
 
     <EditText
         android:id="@+id/type"
-        android:layout_width="152dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Type"
-        android:inputType="textPersonName" />
+        android:hint="Type de logement"
+        android:inputType="numberSigned" />
 
     <Space
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Nombre De Pièces"
-        android:inputType="textPersonName" />
+        android:inputType="numberSigned" />
 
     <Space
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Surface Réelle"
-        android:inputType="textPersonName" />
+        android:inputType="numberSigned" />
 
     <Space
         android:layout_width="match_parent"
@@ -74,23 +74,10 @@
         android:id="@+id/estimationText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Estimation (EUR)" />
+        android:text="Estimation du bien (EUR)" />
     <TextView
         android:id="@+id/estimationVal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="" />
-
-    <TextView
-        android:id="@+id/valuealeatcodepostalText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/surfaceText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
 </LinearLayout>
