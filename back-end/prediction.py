@@ -1,19 +1,15 @@
 import pandas as pd
 import os
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from geopy.geocoders import Nominatim
-import geopandas as gpd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn import metrics
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
+
 
 
 folder = './transactions-ser'
 
+
+# Fonction qui lit et fusionne les fichiers csv dans le dossier "folder"
 def read_and_merge(folder) :
     csv_files = [f for f in os.listdir(folder) if f.endswith('.csv')]
     df = pd.read_csv(os.path.join(folder, csv_files[0]),delimiter=';')
@@ -21,16 +17,12 @@ def read_and_merge(folder) :
 
     for file in csv_files[1:]:
         df_temp = pd.read_csv(os.path.join(folder, file), delimiter=';')
-        # Keep only the columns that are present in the first CSV file
         df_temp = df_temp[common_columns]
-        #df = df.append(df_temp, ignore_index=False)
         df = pd.concat([df, df_temp], ignore_index=False)
     return df
 
 
-#df = read_and_merge(folder)
-#print(df.info())
-
+# Fonction qui nettoie le dataFrame, la fonction est plus détaillée dans le notebook VisualisionEtAnalyse
 def data_cleaning(df) :
     df = df.replace({'None': None, 'nan': float('nan')})
     df.dropna(subset = ["valeur_fonciere"], inplace = True)
@@ -64,9 +56,8 @@ def data_cleaning(df) :
 
     return df
 
-#df = data_cleaning(df)
-#print(df)
 
+# Fonction qui entraine le modele de la régression linéaire
 def train(df) :
     df_train = df.sample(n=3000, random_state=7,replace=True)
 
@@ -80,37 +71,23 @@ def train(df) :
     lmodellineaire.fit(X_train, y_train)
 
     y_pred = lmodellineaire.predict(X_test)
-    #rmse = round(np.sqrt(mean_squared_error(y_test, y_pred)),2)
-    #r2 = round(r2_score(y_test, y_pred),4)
-
-    #print(f"L'erreur quadratique moyenne est {rmse}€")
-    #print(f"Taux de bonne classification {np.ceil(r2*100)}%")
 
     return lmodellineaire
 
-#lmodellineaire = train(df)
+# Fonction qui retourne les coefficients de la régression liéaire
+def get_coef() :
+    df = read_and_merge(folder)
+    df = data_cleaning(df)
+    lmodellineaire = train(df)
+    coefficient = lmodellineaire.coef_
+    return np.append(coefficient ,lmodellineaire.intercept_)
 
+# Fonction qui retourne l'estimation des prix, les paramètres sont la sufrace, le type, la surface du terrain et le nombre de pièces
 def predict(surface, code_type, surface_terrain, np_piece) :
     df = read_and_merge(folder)
     df = data_cleaning(df)
     lmodellineaire = train(df)
     df_estim = [[surface, code_type, surface_terrain, np_piece]]
-    #print(df_estim)
     estimation = round(lmodellineaire.predict(df_estim)[0],2)
-    #print (f'Estimation du bien : {estimation} euros.')
-    coefficient = lmodellineaire.coef_
-    print(coefficient)
-
     return estimation
 
-def get_coef() :
-    df = read_and_merge(folder)
-    df = data_cleaning(df)
-    lmodellineaire = train(df)
-    #df_estim = [[surface, code_type, surface_terrain, np_piece]]
-    coefficient = lmodellineaire.coef_
-    return coefficient
-
-
-#print(predict(70, 2, 150, 3))
-#get_coef()
