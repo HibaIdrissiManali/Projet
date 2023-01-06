@@ -98,7 +98,19 @@ def predict(surface, code_type, surface_terrain, np_piece) :
     #print(df_estim)
     estimation = round(lmodellineaire.predict(df_estim)[0],2)
     #print (f'Estimation du bien : {estimation} euros.')
+    coefficient = lmodellineaire.coef_
+    print(coefficient)
 
     return estimation
 
-print(predict(70, 2, 150, 3))
+def get_coef() :
+    df = read_and_merge(folder)
+    df = data_cleaning(df)
+    lmodellineaire = train(df)
+    #df_estim = [[surface, code_type, surface_terrain, np_piece]]
+    coefficient = lmodellineaire.coef_
+    return coefficient
+
+
+#print(predict(70, 2, 150, 3))
+#get_coef()
